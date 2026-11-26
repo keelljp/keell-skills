@@ -12,6 +12,11 @@ on:
 permissions:
   contents: write
 
+# 画面で公開するとタグのpushも同時に起きるため、同じタグの処理は1つずつ動かす
+concurrency:
+  group: release-${{ github.event.release.tag_name || github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
