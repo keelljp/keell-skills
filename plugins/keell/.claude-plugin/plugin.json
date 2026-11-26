@@ -1,0 +1,12 @@
+{
+  "name": "keell",
+  "description": "KEELLのタスク・ストリーム・テンプレート・レポートを、正確な日付で安全に操作する",
+  "version": "0.3.0",
+  "author": {
+    "name": "KEELL Inc.",
+    "url": "https://keell.jp/saas"
+  },
+  "homepage": "https://github.com/keelljp/keell-skills",
+  "repository": "https://github.com/keelljp/keell-skills",
+  "license": "Apache-2.0"
+}
