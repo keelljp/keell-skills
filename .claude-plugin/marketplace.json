@@ -7,7 +7,7 @@
   },
   "plugins": [
     {
-      "name": "keell",
+      "name": "keell-official",
       "source": "./plugins/keell",
       "description": "KEELLのタスク・ストリーム・テンプレート・レポートを、正確な日付で安全に操作する"
     }
