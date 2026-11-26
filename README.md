@@ -65,7 +65,7 @@ plugins/keell/                    KEELLのプラグイン
 docs/                             利用者向けのドキュメント
 ```
 
-Skill本体は `plugins/keell/skills/keell/` の1か所だけです。keell.zip は、版を出すたびにこのフォルダから自動で作られます。
+Skill本体は `plugins/keell/skills/keell/` の1か所だけです。keell.zip は、版を出すたびにこのフォルダから自動で作られます（GitHubの画面で `v0.3.0` のようなタグの Release を公開すると、Actions が keell.zip を作って添付します）。
 
 ## ご意見・不具合
 

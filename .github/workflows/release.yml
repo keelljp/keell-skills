@@ -1,7 +1,11 @@
-# v0.2.0 のようなタグを push すると、Skill本体から keell.zip を作り、Release に添付する
+# keell.zip を作り、Release に添付する
+# - GitHubの画面で Release を公開したとき（タグ v0.3.0 などを新規作成して公開）
+# - v0.3.0 のようなタグを push したとき
 name: release
 
 on:
+  release:
+    types: [published]
   push:
     tags: ["v*"]
 
@@ -14,13 +18,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Decide tag
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "TAG=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
+          else
+            echo "TAG=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          fi
+
       - name: Check versions
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
+          V="${TAG#v}"
           PLUGIN=$(jq -r .version plugins/keell/.claude-plugin/plugin.json)
-          grep -q "^v${TAG}（" plugins/keell/skills/keell/SKILL.md || { echo "SKILL.md の末尾の版が v${TAG} ではありません"; exit 1; }
-          [ "$PLUGIN" = "$TAG" ] || { echo "plugin.json の version ($PLUGIN) がタグ ($TAG) と違います"; exit 1; }
-          grep -q "^## v${TAG}（" CHANGELOG.md || { echo "CHANGELOG.md に v${TAG} がありません"; exit 1; }
+          grep -q "^v${V}（" plugins/keell/skills/keell/SKILL.md || { echo "SKILL.md の末尾の版が v${V} ではありません"; exit 1; }
+          [ "$PLUGIN" = "$V" ] || { echo "plugin.json の version ($PLUGIN) がタグ ($V) と違います"; exit 1; }
+          grep -q "^## v${V}（" CHANGELOG.md || { echo "CHANGELOG.md に v${V} がありません"; exit 1; }
 
       - name: Build keell.zip
         run: |
@@ -30,10 +42,18 @@ jobs:
 
       - name: Release notes
         run: |
-          awk -v v="## ${GITHUB_REF_NAME}（" 'index($0,v)==1{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
+          awk -v v="## ${TAG}（" 'index($0,v)==1{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
           cat notes.md
 
-      - name: Publish release
+      - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" keell.zip --title "$GITHUB_REF_NAME" --notes-file notes.md
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" keell.zip --clobber
+            # 画面で本文を書かなかったときは CHANGELOG の内容を入れる
+            BODY=$(gh release view "$TAG" --json body --jq .body)
+            [ -n "$BODY" ] || gh release edit "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" keell.zip --title "$TAG" --notes-file notes.md
+          fi
