@@ -1,5 +1,6 @@
 {
-  "name": "keell",
+  "name": "keell-official",
+  "displayName": "KEELL Official",
   "description": "KEELLのタスク・ストリーム・テンプレート・レポートを、正確な日付で安全に操作する",
   "version": "0.3.0",
   "author": {

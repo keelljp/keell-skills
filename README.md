@@ -34,7 +34,7 @@ KEELLのコネクタ（MCP）をつなぐと、Claudeから KEELL のタスク�
 | 使っているもの | 入れ方 |
 |---|---|
 | Claude（Web・デスクトップ・モバイル） | [keell.zip](https://github.com/keelljp/keell-skills/releases/latest/download/keell.zip) をダウンロードし、「カスタマイズ → Skills →「＋」→ Skillを作成 → Skillをアップロード」 |
-| Claude Code | `/plugin marketplace add keelljp/keell-skills` → `/plugin install keell@keell-skills` |
+| Claude Code | `/plugin marketplace add keelljp/keell-skills` → `/plugin install keell-official@keell-skills` |
 
 ## 更新
 

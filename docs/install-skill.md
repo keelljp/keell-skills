@@ -28,7 +28,7 @@ Skillを使うには、設定で「コード実行とファイル作成」がオ
 
 ```text
 /plugin marketplace add keelljp/keell-skills
-/plugin install keell@keell-skills
+/plugin install keell-official@keell-skills
 ```
 
 更新するとき：
@@ -37,7 +37,7 @@ Skillを使うには、設定で「コード実行とファイル作成」がオ
 /plugin marketplace update keell-skills
 ```
 
-ターミナルから入れる場合は `claude plugin marketplace add keelljp/keell-skills` → `claude plugin install keell@keell-skills` です。
+ターミナルから入れる場合は `claude plugin marketplace add keelljp/keell-skills` → `claude plugin install keell-official@keell-skills` です。
 
 ## 入ったかを確かめる
 
