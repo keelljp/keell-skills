@@ -1,0 +1,15 @@
+{
+  "name": "keell-skills",
+  "description": "KEELL公式のSkill。KEELL（キール）をClaudeから使うためのプラグイン",
+  "owner": {
+    "name": "KEELL Inc.",
+    "url": "https://keell.jp/saas"
+  },
+  "plugins": [
+    {
+      "name": "keell",
+      "source": "./plugins/keell",
+      "description": "KEELLのタスク・ストリーム・テンプレート・レポートを、正確な日付で安全に操作する"
+    }
+  ]
+}

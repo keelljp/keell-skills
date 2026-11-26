@@ -1,0 +1,39 @@
+# v0.2.0 のようなタグを push すると、Skill本体から keell.zip を作り、Release に添付する
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check versions
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PLUGIN=$(jq -r .version plugins/keell/.claude-plugin/plugin.json)
+          grep -q "^v${TAG}（" plugins/keell/skills/keell/SKILL.md || { echo "SKILL.md の末尾の版が v${TAG} ではありません"; exit 1; }
+          [ "$PLUGIN" = "$TAG" ] || { echo "plugin.json の version ($PLUGIN) がタグ ($TAG) と違います"; exit 1; }
+          grep -q "^## v${TAG}（" CHANGELOG.md || { echo "CHANGELOG.md に v${TAG} がありません"; exit 1; }
+
+      - name: Build keell.zip
+        run: |
+          cd plugins/keell/skills
+          zip -r "$GITHUB_WORKSPACE/keell.zip" keell
+          unzip -l "$GITHUB_WORKSPACE/keell.zip"
+
+      - name: Release notes
+        run: |
+          awk -v v="## ${GITHUB_REF_NAME}（" 'index($0,v)==1{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
+          cat notes.md
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" keell.zip --title "$GITHUB_REF_NAME" --notes-file notes.md
