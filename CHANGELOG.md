@@ -5,6 +5,7 @@ KEELL公式Skill（keell）の変更点です。版の付け方：小さな直�
 ## 未リリース
 - Claude Code のプラグイン名を `keell` から `keell-official` に変更（Claudeのプラグインディレクトリの審査で、既存の別プラグイン名と似ていると判定されたため）。すでに `keell@keell-skills` を入れている場合は、`/plugin uninstall keell@keell-skills` のあと `/plugin install keell-official@keell-skills` で入れ直す。Skill名 `keell` と keell.zip は変わらない
 - プラグインのREADMEに英語の説明を追加
+- 「いまできないこと」から「承認」を削除（KEELLに承認の機能はないため）
 
 ## v0.3.0（2026-11-26）
 - KEELLの仕様をまとめた参考ファイル（references/）を同梱：用語と権限、タスク、ストリーム、レポートと工数、使える条件とできないこと。仕様を聞かれたら、利用ガイドのWebサイトを読まずにこれを読む
